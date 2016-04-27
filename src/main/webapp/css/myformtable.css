@@ -1,0 +1,4 @@
+.table_css{width: 100%;}
+.table_css tr{border-bottom:1px dotted #999;}
+.table_css tr td{ padding:5px;}
+.hd{ background:#eee;text-align: right;}
