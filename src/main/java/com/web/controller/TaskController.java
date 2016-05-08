@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * Created by gaoyang on 16/2/28.
  */
 @Controller
-@RequestMapping("/task")
+@RequestMapping("/admin/task")
 public class TaskController {
 
     @Autowired
@@ -123,6 +123,18 @@ public class TaskController {
         int taskid= ConvertUtil.safeToInteger(request.getParameter("taskid"),0);
         List list=taskService.searchTaskClickByTaskId(taskid);
         return list;
+    }
+
+    @RequestMapping(value = "/getcontent",method = RequestMethod.POST,produces="application/json; charset=utf-8")
+    @ResponseBody
+    public Object getcontent(HttpServletRequest request,HttpServletResponse response){
+        int taskid= ConvertUtil.safeToInteger(request.getParameter("taskid"),0);
+        Task task=taskService.getTaskById(taskid);
+        if(null!=task){
+            return task.getContent();
+        }else{
+            return "";
+        }
     }
 
 }

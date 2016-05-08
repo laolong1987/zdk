@@ -1,5 +1,8 @@
 package com.web.entity;
 
+/**
+ * Created by gaoyang on 2016/5/5.
+ */
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,23 +13,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
-public class User{
+@Table(name = "user_account")
+public class User_account{
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name ="openid")
-    private String openid;
+    @Column(name ="user_id")
+    private int user_id;
     @Column(name ="status")
     private int status;
     @Column(name ="create_time")
     private Date create_time;
     @Column(name ="update_time")
     private Date update_time;
-    @Column(name ="source")
-    private int source;
+    @Column(name ="total_money")
+    private int total_money;
+    @Column(name ="current_money")
+    private int current_money;
+    @Column(name ="task_money")
+    private int task_money;
+    @Column(name ="master_money")
+    private int master_money;
     public void setId(int id){
         this.id=id;
     }
@@ -34,11 +43,11 @@ public class User{
         return this.id;
     }
 
-    public void setOpenid(String openid){
-        this.openid=openid;
+    public void setUser_id(int user_id){
+        this.user_id=user_id;
     }
-    public String getOpenid(){
-        return this.openid;
+    public int getUser_id(){
+        return this.user_id;
     }
 
     public void setStatus(int status){
@@ -62,11 +71,32 @@ public class User{
         return this.update_time;
     }
 
-    public void setSource(int source){
-        this.source=source;
+    public void setTotal_money(int total_money){
+        this.total_money=total_money;
     }
-    public int getSource(){
-        return this.source;
+    public int getTotal_money(){
+        return this.total_money;
+    }
+
+    public void setCurrent_money(int current_money){
+        this.current_money=current_money;
+    }
+    public int getCurrent_money(){
+        return this.current_money;
+    }
+
+    public void setTask_money(int task_money){
+        this.task_money=task_money;
+    }
+    public int getTask_money(){
+        return this.task_money;
+    }
+
+    public void setMaster_money(int master_money){
+        this.master_money=master_money;
+    }
+    public int getMaster_money(){
+        return this.master_money;
     }
 
 }

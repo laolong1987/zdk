@@ -1,8 +1,13 @@
 package com.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.common.weixin.TokenThread;
+import com.utils.ConvertUtil;
 import com.utils.StringUtil;
 import com.web.entity.Demo;
 import com.web.service.DemoService;
+import com.web.service.UserService;
+import com.web.service.WeiXinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,12 +36,18 @@ public class DemoController {
     @Autowired
     DemoService demoService;
 
+    @Autowired
+    WeiXinService weiXinService;
+
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/show")
     public String show(HttpServletRequest request,
                                 HttpServletResponse response) {
 
         request.setAttribute("list",demoService.searchList(new HashMap()));
-
+        System.out.println(TokenThread.accessToken.getToken());
         return "/jsp/demo";
     }
 
@@ -71,14 +84,33 @@ public class DemoController {
     public String demo(HttpServletRequest request,
                        HttpServletResponse response) {
 
+        //模拟登陆
+        request.getSession().setAttribute("user",userService.getUserByOpenId("123"));
+        request.getSession().setAttribute("username","123");
+        request.getSession().setAttribute("userid","1");
+
         return "/jsp/demoupfile";
 
     }
 
+    @RequestMapping(value = "/showweixin")
+    public String showweixin(HttpServletRequest request,
+                       HttpServletResponse response) throws UnsupportedEncodingException {
+        String code= ConvertUtil.safeToString(request.getParameter("code"),"");
+        String state= ConvertUtil.safeToString(request.getParameter("state"),"");
+        System.out.println("0---------------------"+code+"------"+state);
+        JSONObject jsonObject=weiXinService.getAccessTokenByCode(code);
+        if(null!=jsonObject){
+            System.out.println("1---------------------"+jsonObject.toJSONString());
+            JSONObject info=weiXinService.getUserInfoByToken(jsonObject.getString("access_token"),jsonObject.getString("openid"));
+            System.out.println("2---------------------"+info.toJSONString());
+        }
+
+        return "/jsp/demoweixin";
+    }
+
     /**
      * 上传文件测试
-     * @param request
-     * @param model
      * @return
      */
     @RequestMapping(method= RequestMethod.POST,value = "/upload")

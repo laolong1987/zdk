@@ -114,7 +114,7 @@
                 }
             ],
             pageSize : 15,
-            url : "${ctx}/task/searchlist",
+            url : "${ctx}/admin/task/searchlist",
             rownumbers : true,
             checkbox : true,
             selectRowButtonOnly : true,
@@ -147,7 +147,8 @@
         $("#total").val(data.total);
         $("#keyword").val(data.keyword);
         $("#description").val(data.description);
-        um.setContent(data.content);
+//        um.setContent(data.content);
+        getcontent(data.id);
         $("#ImgPr").attr('src','${ctx}/images/taskimg/'+data.logoimg);
 
         var manager = $("#maingrid2").ligerGetGridManager();
@@ -343,7 +344,7 @@
 
     function submitdata(){
         var data = g.getData();
-        $("#content").val(um.getContent());
+        $("#content").val(um.getContent().replace(/\"/g,"\'"));
         $("#tabledata").val(JSON.stringify(data).replace(/\"/g,"\'"));
         $.ajaxFileUpload( {
             url : "savetask",
@@ -358,6 +359,19 @@
                 });
             }
         });
+    }
+
+    function getcontent(id) {
+            $.ajax({
+                type : "POST",
+                url : "getcontent",
+//                data : JSON.stringify(params),
+                data : {taskid:id},
+                dataType : "text",
+                success : function(result) {
+                    um.setContent(result);
+                }
+            });
     }
 
 </script>

@@ -3,9 +3,7 @@ package com.web.service;
 import com.common.SearchTemplate;
 import com.web.dao.PatientDao;
 import com.web.dao.TaskDao;
-import com.web.entity.Patient;
-import com.web.entity.Task;
-import com.web.entity.Task_check;
+import com.web.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +52,22 @@ public class TaskService {
     public void removeTask(List<Integer> ids) {
         taskDao.removeTask(ids);
     }
+
+    public List<Map> searchTaskByUser(int userid,int tasktype){
+        return taskDao.searchTaskByUser(userid,tasktype);
+    }
+
+    public void saveUserTask(User_task user_task){
+        taskDao.save(user_task);
+    }
+
+    public void saveTaskForm(Task_form task_form){
+        taskDao.save(task_form);
+    }
+
+
+    public User_task getUserTaskById(int id){
+        return (User_task) taskDao.getObjectById(id,User_task.class);
+    }
+
 }

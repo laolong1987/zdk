@@ -166,36 +166,52 @@
             }
         })
         function logon() {
-            window.location.href="${ctx}/admin/index";
-            <%--var param = $("#logonForm").serializeJson();--%>
-            <%--if('${param.tabid}'){--%>
-                <%--param.tabid = '${param.tabid}';--%>
-                <%--param.params = '${param.params}';--%>
-            <%--}--%>
-            <%--$.ajax({--%>
-                <%--type : "POST",--%>
-                <%--url : "${ctx}/logon",--%>
-                <%--data : JSON.stringify(param),--%>
-                <%--contentType : "application/json; charset=utf-8",--%>
-                <%--dataType : "JSON",--%>
-                <%--success : function(result) {--%>
-                    <%--if (result == 'success') {--%>
-                        <%--$(".message").hide();--%>
-                        <%--$("#msg").html('');--%>
-                        <%--$("#hrefForm").submit();--%>
-                    <%--}else {--%>
-                        <%--$(".message").show();--%>
-                        <%--$("#msg").html(result);--%>
-                    <%--}--%>
-                <%--}--%>
-            <%--});--%>
+            <%--window.location.href="${ctx}/admin/index";--%>
+            var param = $("#logonForm").serializeJson();
+            if('${param.tabid}'){
+                param.tabid = '${param.tabid}';
+                param.params = '${param.params}';
+            }
+            $.ajax({
+                type : "POST",
+                url : "${ctx}/login/adminlogin2",
+                data : JSON.stringify(param),
+                dataType:"text",
+                success : function(result) {
+                    if (result == 'success') {
+//                        $(".message").hide();
+//                        $("#msg").html('');
+//                        $("#hrefForm").submit();
+                        window.location.href="${ctx}/admin/index";
+                    }else {
+                        $(".message").show();
+                        $("#msg").html("账号密码错误");
+                    }
+                }
+            });
+        }
+
+        function loginValidate(){
+            var username=$("#username").val();
+            var pwd=$("#password").val();
+            if(username=="" || username==null){
+                $(".message").show();
+                $("#msg").html("用户名不可为空");
+                return false;
+            }
+            if(pwd==""|| pwd==null){
+                $(".message").show();
+                $("#msg").html("用户名不可为空");
+                return false;
+            }
+            return true;
         }
     </script>
 </head>
 <body>
 <section class="login">
     <article class="login-article">
-        <form id="logonForm" method="post">
+        <form id="logonForm" method="post" action="adminlogin2">
             <article class="message">
                 <p class="error" id="msg"></p>
             </article>
@@ -207,7 +223,8 @@
                 <!-- <li class="savelogin"><label>&nbsp;<input id="autologon" name="autologon" type="checkbox" value="1">自动登录</label></li> -->
             </ul>
             <aside class="login-submit-button" id="submit-button">
-                <button type="button" id="loginBtn" onclick="logon();"></button>
+                <button type="submit" id="loginBtn" onclick="return loginValidate()"></button>
+                <%--<button type="button" id="loginBtn" onclick="logon();"></button>--%>
                 <!-- <span style="line-height: 24px;height: 24px;"> <a id="supportBtn" href="###">支持中心</a> </span> -->
             </aside>
         </form>

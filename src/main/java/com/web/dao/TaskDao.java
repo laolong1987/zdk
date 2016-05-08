@@ -23,7 +23,7 @@ public class TaskDao extends BaseDao{
     public SearchTemplate searchTask(Map map){
         StringBuffer sql =new StringBuffer();
         sql.append("SELECT t.id,t.name,t.status,t.description,DATE_FORMAT(t.begintime,'%Y-%m-%d %H:%i') AS begintime,DATE_FORMAT(t.endtime,'%Y-%m-%d %H:%i') AS endtime, ");
-        sql.append("t.keyword,t.unitprice,t.total,t.content,t.type,t.logoimg ");
+        sql.append("t.keyword,t.unitprice,t.total,t.type,t.logoimg,t.imgfile ");
         sql.append("FROM task t ");
         sql.append("where 1=1 ");
         Map p=new HashMap();
@@ -53,4 +53,17 @@ public class TaskDao extends BaseDao{
         StringBuffer sql = new StringBuffer("delete from Task where id in(:ids)");
         super.removeByIds(sql.toString(), ids);
     }
+
+
+    public List<Map> searchTaskByUser(int userid, int tasktype){
+        StringBuffer sql=new StringBuffer("SELECT t.id,t.name,t.unitprice,t.keyword,t.total,t.logoimg,t.description,t.content,a.status,t.imgfile,a.id as utid FROM task t ");
+        sql.append(" LEFT JOIN user_task a ON t.id=a.taskid AND a.userid=:userid ");
+        sql.append(" where 1=1 and t.type=:type ");
+        Map p=new HashMap();
+        p.put("userid",userid);
+        p.put("type",tasktype);
+        sql.append(" order by create_time DESC ");
+        return super.findResult(sql.toString(),p);
+    }
+
 }

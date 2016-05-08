@@ -1,0 +1,503 @@
+@charset "GBK";
+html {
+  background-color: #f5f7f6;
+}
+
+body {
+  color: #666;
+  font-family: "Microsoft YaHei";
+}
+
+header {
+  height: 1.0rem;
+  background-color: #59b454;
+  overflow: hidden;
+  font-size: 0.426667rem;
+}
+
+i, u, em {
+  font-style: inherit;
+}
+
+.z-gray {
+  color: #999;
+}
+
+.z-red {
+  color: #ff6666;
+}
+
+.z-green {
+  color: #59b454;
+}
+
+.z-logo {
+  width: 2.026667rem;
+  height: 0.72rem;
+  margin: 0.106667rem auto 0;
+  display: block;
+}
+
+.z-information {
+  padding: 0.533333rem 0 0.266667rem 0.426667rem;
+  font-size: 0.373333rem;
+  overflow: hidden;
+}
+.z-information dl {
+  width: 10.0rem;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.z-information dt {
+  width: 2.56rem;
+  height: 2.56rem;
+  background-size: 2.56rem 2.56rem;
+  float: left;
+}
+.z-information dt img {
+  width: 2.56rem;
+  height: 2.56rem;
+  border-radius: 1.2rem;
+}
+.z-information dd {
+  width: 2.133333rem;
+  margin-top: 0.4rem;
+  margin-left: 0.6rem;
+  text-align: left;
+  float: left;
+}
+.z-information dd p {
+  margin-bottom: 0.266667rem;
+}
+.z-information dd span {
+  line-height: 0.466667rem;
+  display: block;
+}
+
+.z-payments, .z-my-task, .z-my-stu, .z-p-list em, .z-p-list span {
+  background: url(../images/z_person_bg.png) no-repeat;
+  background-size: 1.066667rem 6.666667rem;
+}
+
+.z-gn-bg {
+  padding: 0.426667rem;
+  background-color: #59b454;
+  border-top: 1px solid #9dea9a;
+  overflow: hidden;
+}
+.z-gn-bg dd {
+  color: #fff;
+}
+.z-gn-bg dd p {
+  font-size: 0.426667rem;
+  margin-bottom: 0.133333rem;
+}
+.z-gn-bg dd span {
+  margin-bottom: 0.133333rem;
+}
+.z-gn-bg dt.z-payments {
+  width: auto;
+  height: auto;
+  float: right;
+  margin-right: 0.426667rem;
+  color: #fff;
+  font-size: 0.373333rem;
+  padding-right: 0.466667rem;
+  background-position: 1.533333rem -5.373333rem;
+  background-size: 1.066667rem 6.666667rem;
+}
+
+.z-p-list {
+  margin: 0 0.426667rem 1.333333rem;
+}
+.z-p-list li {
+  height: 1.053333rem;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 0.373333rem;
+}
+.z-p-list li em {
+  width: 0.533333rem;
+  height: 0.533333rem;
+  margin: 0.266667rem 0 0 0.266667rem;
+  float: left;
+}
+.z-p-list li .z-icon-card {
+  background-position: 0 -1.973333rem;
+}
+.z-p-list li .z-icon-meg {
+  background-position: 0 -2.8rem;
+}
+.z-p-list li .z-icon-ques {
+  background-position: 0 -3.72rem;
+}
+.z-p-list li .z-icon-idea {
+  background-position: 0 -4.693333rem;
+}
+.z-p-list li a {
+  display: block;
+  overflow: hidden;
+  color: #666;
+}
+.z-p-list li p {
+  line-height: 1.04rem;
+  float: left;
+  padding-left: 0.4rem;
+}
+.z-p-list li span {
+  width: 2.666667rem;
+  height: 1.04rem;
+  line-height: 1.04rem;
+  color: #666;
+  margin-right: 0.266667rem;
+  text-align: right;
+  padding-right: 0.4rem;
+  float: right;
+  background-position: 1.466667rem -5.933333rem;
+}
+
+.z-notice {
+  height: 0.933333rem;
+  line-height: 0.933333rem;
+  padding-left: 0.933333rem;
+  background: url(../images/z-notice.png) no-repeat;
+  background-size: 0.426667rem 0.506667rem;
+  background-color: #fff;
+  margin: 0.266667rem 0.426667rem;
+  background-position: 0.24rem 0.2rem;
+  border-radius: 0.4rem;
+  font-size: 0.32rem;
+}
+
+.z-turn-meg {
+  height: 2.533333rem;
+  margin: 0 0.426667rem 0.426667rem;
+  background-color: #fff;
+  font-size: 0.373333rem;
+  padding: 0 0.266667rem;
+}
+.z-turn-meg ul {
+  width: 8.8rem;
+  margin: 0 auto;
+}
+.z-turn-meg li {
+  float: left;
+}
+.z-turn-meg p {
+  height: 0.8rem;
+  line-height: 0.8rem;
+}
+.z-turn-meg p .z-green {
+  padding-left: 0.2rem;
+}
+.z-turn-meg li.z-li-border {
+  width: 0;
+  border-left: 1px solid #ccc;
+  height: 1.933333rem;
+  margin: 0.266667rem 0.6rem 0;
+}
+
+.z-alone-meg {
+  height: 1.466667rem;
+  background-color: #fff;
+  padding: 0;
+  margin-top: 0.426667rem;
+}
+.z-alone-meg li {
+  width: 3.733333rem;
+}
+.z-alone-meg li.z-li-border {
+  height: 0.933333rem;
+}
+.z-alone-meg ul {
+  height: 1.466667rem;
+}
+.z-alone-meg ul p {
+  width: 3.333333rem;
+  height: 0.733333rem;
+  line-height: 0.733333rem;
+  padding-left: 0.933333rem;
+  font-size: 0.426667rem;
+  margin-top: 0.333333rem;
+  margin-left: 0.666667rem;
+}
+.z-alone-meg ul .z-my-task {
+  background-position: 0.266667rem 0;
+  padding-left: 1.2rem;
+}
+.z-alone-meg ul .z-my-stu {
+  background-position: 0 -1.12rem;
+  padding-left: 1.2rem;
+  margin-left: 0.4rem;
+}
+
+.z-banner {
+  margin: 0 0.426667rem 1.893333rem;
+}
+.z-banner img {
+  width: 9.146667rem;
+  height: 5.866667rem;
+  display: block;
+  margin: 0 auto;
+}
+
+/*-- 我的任务 --*/
+.z-top-tit {
+  width: 10.0rem;
+  line-height: 1.0rem;
+  margin: 0 auto;
+}
+.z-top-tit span {
+  width: 0.866667rem;
+  height: 1.0rem;
+  background: url(../images/z-point-left.png) no-repeat;
+  background-size: 0.866667rem 1.0rem;
+  float: left;
+}
+.z-top-tit p {
+  width: 8.266667rem;
+  padding-right: 0.866667rem;
+  text-align: center;
+  color: #fff;
+  float: left;
+}
+
+.z-task-list {
+  margin: 0.533333rem 0.426667rem 1.866667rem;
+}
+.z-task-list li {
+  padding: 0.266667rem;
+  background-color: #fff;
+  margin-bottom: 0.4rem;
+  overflow: hidden;
+}
+.z-task-list li img {
+  width: 1.893333rem;
+  height: 1.92rem;
+  border-radius: 0.266667rem;
+  float: left;
+}
+
+.z-t-content {
+  width: 4.266667rem;
+  float: left;
+  padding-left: 0.333333rem;
+  font-size: 0.346667rem;
+}
+.z-t-content strong {
+  color: #000;
+  display: block;
+  font-weight: inherit;
+}
+.z-t-content span {
+  font-size: 0.266667rem;
+}
+.z-t-content p {
+  line-height: 0.533333rem;
+}
+
+.z-t-side {
+  width: 2.0rem;
+  float: right;
+  padding-right: 0.4rem;
+  margin-top: 0.266667rem;
+  font-size: 0.32rem;
+}
+.z-t-side span {
+  color: #59b454;
+  padding-left: 0.133333rem;
+}
+.z-t-side p {
+  margin-top: 0.4rem;
+}
+.z-t-side p em {
+  width: 0.533333rem;
+  height: 0.533333rem;
+  line-height: 0.56rem;
+  color: #fff;
+  border-radius: 0.266667rem;
+  text-align: center;
+  background-color: #59b454;
+  margin-right: 0.133333rem;
+  display: inline-block;
+}
+
+/*-- 底部 --*/
+footer {
+  width: 100%;
+  height: 1.466667rem;
+  background-color: #fff;
+  font-size: 0.32rem;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+footer ul {
+  width: 10.0rem;
+  margin: 0 auto;
+}
+footer li {
+  width: 2.493333rem;
+  float: left;
+  margin-top: 0.266667rem;
+}
+footer p {
+  width: 0.72rem;
+  height: 0.56rem;
+  background: url(../images/z_ft_icon.png) no-repeat;
+  background-size: 1.866667rem 3.333333rem;
+  margin-left: 0.88rem;
+  margin-bottom: 0.066667rem;
+}
+footer p.z-icon-fast {
+  background-position: -0.093333rem -0.026667rem;
+}
+footer p.z-icon-high {
+  background-position: -0.093333rem -0.786667rem;
+}
+footer p.z-icon-share {
+  background-position: -0.093333rem -1.693333rem;
+}
+footer p.z-icon-center {
+  background-position: -0.093333rem -2.52rem;
+}
+footer li.on p.z-icon-fast {
+  background-position: -0.946667rem -0.026667rem;
+}
+footer li.on p.z-icon-high {
+  background-position: -0.946667rem -0.786667rem;
+}
+footer li.on p.z-icon-share {
+  background-position: -0.946667rem -1.693333rem;
+}
+footer li.on p.z-icon-center {
+  background-position: -0.946667rem -2.52rem;
+}
+footer span {
+  display: block;
+  text-align: center;
+}
+
+.z-btn-green {
+  width: 2.2rem;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  color: #fff;
+  text-align: center;
+  display: block;
+  border-radius: 0.133333rem;
+  font-size: 0.32rem;
+  background-color: #59b454;
+}
+
+.z-btn-gray {
+  width: 2.2rem;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  color: #fff;
+  text-align: center;
+  display: block;
+  border-radius: 0.133333rem;
+  font-size: 0.32rem;
+  background-color: #999;
+}
+
+.z-btn-right {
+  float: right;
+  padding: 0.8rem 0 0 0;
+}
+
+.w-tk-code {
+  width: 7.066667rem;
+  padding-left: 0.533333rem;
+  background-color: #fff;
+  position: absolute;
+  left: 50%;
+  margin-left: -3.8rem;
+  display: none;
+  overflow: hidden;
+}
+.w-tk-code .w-tk-close {
+  width: 1.026667rem;
+  height: 1.026667rem;
+  line-height: 0.733333rem;
+  font-size: 0.426667rem;
+  color: #fff;
+  display: block;
+  text-align: center;
+  float: right;
+  background-color: #59b454;
+  cursor: pointer;
+  border-radius: 0 0 0 1.026667rem;
+}
+.w-tk-code dl {
+  margin-top: 0.533333rem;
+  width: 100%;
+  overflow: hidden;
+}
+.w-tk-code dl dd {
+  float: left;
+  margin-right: 0.266667rem;
+}
+.w-tk-code dl dd img {
+  width: 1.933333rem;
+  height: 1.933333rem;
+  border-radius: 0.266667rem;
+}
+.w-tk-code dl dd p {
+  font-size: 0.346667rem;
+}
+.w-tk-code dl dd p.z-red {
+  margin-top: 0.2rem;
+}
+.w-tk-code dl dd p.z-red, .w-tk-code dl dd span {
+  font-size: 0.293333rem;
+}
+.w-tk-code dl dd.w-dd-wth {
+  width: 3.6rem;
+  margin-right: 0;
+}
+
+.w-tk-from {
+  width: 5.733333rem;
+}
+.w-tk-from .w-input-div {
+  height: 0.6rem;
+  line-height: 0.6rem;
+  padding-left: 0.133333rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.w-tk-from .w-textare-div {
+  height: auto;
+  min-height: 150px;
+  margin-top: 0.533333rem;
+}
+.w-tk-from a {
+  width: 5.733333rem;
+  height: 0.866667rem;
+  line-height: 0.866667rem;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  display: block;
+  border-radius: 0.133333rem;
+  margin-bottom: 0.4rem;
+}
+.w-tk-from .w-btn-longgreen01 {
+  background-color: #59b454;
+}
+.w-tk-from .w-btn-longgreen02 {
+  background-color: #8bda87;
+}
+
+.w-black-bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  opacity: .8;
+  background-color: #ccc;
+  display: none;
+}

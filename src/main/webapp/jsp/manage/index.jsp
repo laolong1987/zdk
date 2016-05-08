@@ -81,7 +81,7 @@
 
         function iniMenu(){
             var data = [];
-            data.push({ id: 1, value: '${ctx}/task/showlist', text: '任务管理' });
+            data.push({ id: 1, value: '${ctx}/admin/task/showlist', text: '任务管理' });
             var tree = $("#tree").ligerTree({
                 data:data,
                 nodeWidth : 120,
@@ -627,8 +627,8 @@
 
     </div>
     <div position="center" id="framecenter">
-        <div tabid="home" title="我的主页" style="height:300px">
-            <iframe frameborder="0" name="home" id="home" src="views/home.jsp"></iframe>
+        <div tabid="home" title="任务管理" style="height:300px">
+            <iframe frameborder="0" name="home" id="home" src="${ctx}/admin/task/showlist"></iframe>
         </div>
     </div>
 </div>

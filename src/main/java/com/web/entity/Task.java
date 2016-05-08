@@ -43,6 +43,18 @@ public class Task{
     private Date update_time;
     @Column(name ="logoimg")
     private String logoimg;
+    @Column(name ="imgfile")
+    private int imgfile;
+
+
+    public int getImgfile() {
+        return imgfile;
+    }
+
+    public void setImgfile(int imgfile) {
+        this.imgfile = imgfile;
+    }
+
     public void setId(int id){
         this.id=id;
     }
