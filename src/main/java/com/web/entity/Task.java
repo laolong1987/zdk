@@ -1,5 +1,4 @@
 package com.web.entity;
-
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -45,16 +44,8 @@ public class Task{
     private String logoimg;
     @Column(name ="imgfile")
     private int imgfile;
-
-
-    public int getImgfile() {
-        return imgfile;
-    }
-
-    public void setImgfile(int imgfile) {
-        this.imgfile = imgfile;
-    }
-
+    @Column(name ="checktype")
+    private String checktype;
     public void setId(int id){
         this.id=id;
     }
@@ -146,11 +137,25 @@ public class Task{
         return this.update_time;
     }
 
-    public String getLogoimg() {
-        return logoimg;
+    public void setLogoimg(String logoimg){
+        this.logoimg=logoimg;
+    }
+    public String getLogoimg(){
+        return this.logoimg;
     }
 
-    public void setLogoimg(String logoimg) {
-        this.logoimg = logoimg;
+    public void setImgfile(int imgfile){
+        this.imgfile=imgfile;
     }
+    public int getImgfile(){
+        return this.imgfile;
+    }
+
+    public void setChecktype(String checktype){
+        this.checktype=checktype;
+    }
+    public String getChecktype(){
+        return this.checktype;
+    }
+
 }

@@ -18,19 +18,22 @@
 </head>
 <body>
 <header>
-    <img class="z-logo" src="${ctx}/images/z-logo.png" alt="">
+    <div class="z-top-tit">
+        <span onclick="gopage('5')"></span>
+        <p>个人中心</p>
+    </div>
 </header>
 <!-- 个人信息 -->
 <div class="z-information z-gn-bg">
     <dl>
         <dt><img src="${sessionScope.user.headimgurl}" alt=""></dt>
         <dd>
-            <p>${sessionScope.user.nickname}</p>
+            <p>${sessionScope.user.nick_name}</p>
             <span>ID:${sessionScope.user.id}</span>
-            <span><fmt:formatNumber value="${sessionScope.user.current_money/100}" type="currency"/></span>
+            <span><fmt:formatNumber value="${sessionScope.user.current_money/100}" /></span>
         </dd>
         <dt class="z-payments">
-            <span>收支明细</span>
+            <a href="taskdetail"><span>收支明细</span><a>
         </dt>
     </dl>
 </div>
@@ -38,66 +41,57 @@
 <div class="z-turn-meg z-alone-meg">
     <ul>
         <li>
+            <a href="mytask">
             <p class="z-my-task">我的任务</p>
+            </a>
         </li>
         <li class="z-li-border"></li>
-        <li>
+        <li><a href="mydisciple">
             <p class="z-my-stu">我的徒弟</p>
+            </a>
         </li>
     </ul>
 </div>
 
 <ul class="z-p-list">
     <li>
-        <a href="#">
+        <a href="cashup">
             <em class="z-icon-card"></em>
             <p>我要提现</p>
             <span></span>
         </a>
     </li>
+    <%--<li>--%>
+        <%--<a href="#">--%>
+            <%--<em class="z-icon-meg"></em>--%>
+            <%--<p>消息提醒</p>--%>
+            <%--<span></span>--%>
+        <%--</a>--%>
+    <%--</li>--%>
+    <%--<li>--%>
+        <%--<a href="#">--%>
+            <%--<em class="z-icon-ques"></em>--%>
+            <%--<p>常见问题</p>--%>
+            <%--<span></span>--%>
+        <%--</a>--%>
+    <%--</li>--%>
+    <%--<li>--%>
+        <%--<a href="#">--%>
+            <%--<em class="z-icon-idea"></em>--%>
+            <%--<p>意见反馈</p>--%>
+            <%--<span></span>--%>
+        <%--</a>--%>
+    <%--</li>--%>
     <li>
-        <a href="#">
-            <em class="z-icon-meg"></em>
-            <p>消息提醒</p>
-            <span></span>
-        </a>
-    </li>
-    <li>
-        <a href="#">
-            <em class="z-icon-ques"></em>
-            <p>常见问题</p>
-            <span></span>
-        </a>
-    </li>
-    <li>
-        <a href="#">
+        <a href="referee">
             <em class="z-icon-idea"></em>
-            <p>意见反馈</p>
+            <p>推荐人</p>
             <span></span>
         </a>
     </li>
 </ul>
 <!-- 底部 -->
-<footer>
-    <ul>
-        <li class="${c1}" onclick="gopage('1')">
-            <p class="z-icon-fast"></p>
-            <span>快速任务</span>
-        </li>
-        <li class="${c2}" onclick="gopage('2')">
-            <p class="z-icon-high"></p>
-            <span>高分任务</span>
-        </li>
-        <li class="${c3}" onclick="gopage('3')">
-            <p class="z-icon-share"></p>
-            <span>分享收徒</span>
-        </li>
-        <li class="${c4}" onclick="gopage('4')">
-            <p class="z-icon-center"></p>
-            <span>个人中心</span>
-        </li>
-    </ul>
-</footer>
+<jsp:include page="footer.jsp" />
 <!-- /底部 -->
 </body>
 </html>

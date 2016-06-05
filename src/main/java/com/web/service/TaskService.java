@@ -28,6 +28,15 @@ public class TaskService {
     public SearchTemplate searchTask(Map map){
         return taskDao.searchTask(map);
     }
+
+    public SearchTemplate searchTaskBatch(Map map){
+        return taskDao.searchTaskBatch(map);
+    }
+
+    public SearchTemplate searchUserTask(Map map){
+        return taskDao.searchUserTask(map);
+    }
+
     public Task getTaskById(int id){
         return (Task) taskDao.getObjectById(id,Task.class);
     }
@@ -57,6 +66,10 @@ public class TaskService {
         return taskDao.searchTaskByUser(userid,tasktype);
     }
 
+    public List<Map> searchTaskByUser(int userid){
+        return taskDao.searchTaskByUser(userid);
+    }
+
     public void saveUserTask(User_task user_task){
         taskDao.save(user_task);
     }
@@ -65,9 +78,32 @@ public class TaskService {
         taskDao.save(task_form);
     }
 
+    public void saveTaskBatch(Task_batch task_batch){
+        taskDao.save(task_batch);
+    }
+
 
     public User_task getUserTaskById(int id){
         return (User_task) taskDao.getObjectById(id,User_task.class);
     }
 
+    public Task_batch getUserTask_batchById(int id){
+        return (Task_batch) taskDao.getObjectById(id,Task_batch.class);
+    }
+
+    public List<Task_batch> findTask_batchByname(String name, String phone){
+        return taskDao.findTask_batchByname(name,phone);
+    }
+
+    public List<Task_checktype> findTask_checktype(){
+        return taskDao.findTask_checktype();
+    }
+
+    public List<Map> searchTaskClickType(String ids){
+        return taskDao.searchTaskClickType(ids);
+    }
+
+    public List<Map> searchTaskClickData(int userid,int taskid){
+        return taskDao.searchTaskClickData(userid,taskid);
+    }
 }

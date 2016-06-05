@@ -6,9 +6,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.common.UpdateFile;
 import com.utils.ConvertUtil;
 import com.utils.DateUtil;
+import com.utils.JxlUtil;
 import com.web.entity.Patient;
 import com.web.entity.Task;
 import com.web.entity.Task_check;
+import com.web.entity.Task_checktype;
 import com.web.service.PatientService;
 import com.web.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -36,13 +39,22 @@ public class TaskController {
     @RequestMapping(value = "/showlist")
     public String showlist(HttpServletRequest request,
                                 HttpServletResponse response) {
+
+        List<Task_checktype> checktypeList= taskService.findTask_checktype();
+        JSONArray jsonArray=new JSONArray();
+        for (Task_checktype task_checktype:checktypeList) {
+            JSONObject jo=new JSONObject();
+            jo.put("id",task_checktype.getId());
+            jo.put("text",task_checktype.getName());
+            jsonArray.add(jo);
+        }
+        request.setAttribute("checktype",jsonArray.toJSONString());
         return "/jsp/manage/listtask";
     }
 
     @RequestMapping(value = "/searchlist",method = RequestMethod.POST)
     @ResponseBody
     public Object searchlist(@RequestBody Map<String, String> param){
-
         return taskService.searchTask(param).getResult();
     }
 
@@ -63,6 +75,8 @@ public class TaskController {
         String description= ConvertUtil.safeToString(request.getParameter("description"),"");
         String content=ConvertUtil.safeToString(request.getParameter("content"),"");
         String data=ConvertUtil.safeToString(request.getParameter("tabledata"),"");
+        String checktypeids=ConvertUtil.safeToString(request.getParameter("checktypeids"),"");
+        int imgfile= ConvertUtil.safeToInteger(request.getParameter("imgfile"),0);
 
         Task task=new Task();
         if(0!=taskid) {
@@ -86,23 +100,25 @@ public class TaskController {
         task.setDescription(description);
         task.setContent(content);
         task.setUpdate_time(new Date());
+        task.setChecktype(checktypeids);
+        task.setImgfile(imgfile);
         taskService.saveTask(task);
 
-        taskService.removeTaskClickByTaskId(task.getId());
-        JSONArray jsonArray= JSON.parseArray(data);
-        for(int k=0;k<jsonArray.size();k++){
-            JSONObject json= JSON.parseObject(jsonArray.get(k).toString()) ;
-            Task_check taskcheck=new Task_check();
-            taskcheck.setName(json.getString("name"));
-            taskcheck.setType(json.getInteger("type"));
-            taskcheck.setCreate_time(new Date());
-            taskcheck.setUpdate_time(new Date());
-            taskcheck.setMaxlength(json.getInteger("maxlength"));
-            taskcheck.setMinlength(json.getInteger("minlength"));
-            taskcheck.setRegular(json.getString("regular"));
-            taskcheck.setTaskid(task.getId());
-            taskService.saveTaskCheck(taskcheck);
-        }
+//        taskService.removeTaskClickByTaskId(task.getId());
+//        JSONArray jsonArray= JSON.parseArray(data);
+//        for(int k=0;k<jsonArray.size();k++){
+//            JSONObject json= JSON.parseObject(jsonArray.get(k).toString()) ;
+//            Task_check taskcheck=new Task_check();
+//            taskcheck.setName(json.getString("name"));
+//            taskcheck.setType(json.getInteger("type"));
+//            taskcheck.setCreate_time(new Date());
+//            taskcheck.setUpdate_time(new Date());
+//            taskcheck.setMaxlength(json.getInteger("maxlength"));
+//            taskcheck.setMinlength(json.getInteger("minlength"));
+//            taskcheck.setRegular(json.getString("regular"));
+//            taskcheck.setTaskid(task.getId());
+//            taskService.saveTaskCheck(taskcheck);
+//        }
         return "success";
     }
 
@@ -134,6 +150,89 @@ public class TaskController {
             return task.getContent();
         }else{
             return "";
+        }
+    }
+
+    @RequestMapping(value = "/searchlist")
+    public String searchlist(HttpServletRequest request,
+                           HttpServletResponse response) {
+
+        return "/jsp/manage/checklist";
+    }
+
+    @RequestMapping(value = "/searchchecklist",method = RequestMethod.POST)
+    @ResponseBody
+    public Object searchchecklist(@RequestBody Map<String, String> param){
+
+        return taskService.searchUserTask(param).getResult();
+    }
+
+    @RequestMapping(value = "/getcheckdata",method = RequestMethod.POST)
+    @ResponseBody
+    public Object getcheckdata(HttpServletRequest request,HttpServletResponse response){
+        int userid= ConvertUtil.safeToInteger(request.getParameter("userid"),0);
+        int taskid= ConvertUtil.safeToInteger(request.getParameter("taskid"),0);
+        List list=taskService.searchTaskClickData(userid,taskid);
+        return list;
+    }
+
+    @RequestMapping(value = "/showexportlist")
+    public String showexportlist(HttpServletRequest request,
+                           HttpServletResponse response) {
+
+        return "/jsp/manage/exporttask";
+    }
+
+    @RequestMapping("exporttaskdata")
+    public void exportData(HttpServletRequest request,
+                           HttpServletResponse response) throws IOException {
+        String path = request.getSession().getServletContext().getRealPath("/")
+                + "template" + "/";
+        String f1 = path + "template.xls";
+        String reportType = request.getParameter("type");
+        String fn = "";
+        if(reportType.equals("1")){
+            fn = "延保人员信息表";
+        }
+        if(reportType.equals("2")){
+            fn = "竞赛人员信息表";
+        }
+        String d = fn + DateUtil.getcurrentDatetime("yyyyMMdd");
+        String f2 = path + d + ".xls";
+        Map para = new HashMap();
+        para.put("type",request.getParameter("type"));
+        JxlUtil.writeExcel(f1, f2, orgService.searchshsgm(para), 0, 1);
+        String fileName = d + ".xls";
+        // 当前文件路径
+        String nowPath = request.getSession().getServletContext().getRealPath(
+                "/")
+                + "template" + "/" + d + ".xls";
+        response.setContentType("application/vnd.ms-excel");
+        File file = new File(nowPath);
+
+        // 清空response
+        response.reset();
+
+        // 设置response的Header
+        response.addHeader("Content-Disposition", "attachment;filename="
+                + new String(fileName.getBytes("gbk"), "iso-8859-1")); // 转码之后下载的文件不会出现中文乱码
+        response.addHeader("Content-Length", "" + file.length());
+
+        try {
+            // 以流的形式下载文件
+            InputStream fis = new BufferedInputStream(new FileInputStream(
+                    nowPath));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+
+            OutputStream toClient = new BufferedOutputStream(response
+                    .getOutputStream());
+            toClient.write(buffer);
+            toClient.flush();
+            toClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

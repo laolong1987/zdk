@@ -45,17 +45,17 @@ public class LoginController {
         String code= ConvertUtil.safeToString(request.getParameter("code"),"");
         String state= ConvertUtil.safeToString(request.getParameter("state"),"");
         JSONObject jsonObject=weiXinService.getAccessTokenByCode(code);
-        System.out.println("--1------------"+code);
+//        System.out.println("--1------------"+code);
         if(null!=jsonObject){
-            System.out.println("--2------------"+jsonObject.toJSONString());
+//            System.out.println("--2------------"+jsonObject.toJSONString());
             String openid=ConvertUtil.safeToString(jsonObject.getString("openid"),"");
             String access_token=ConvertUtil.safeToString(jsonObject.getString("access_token"),"");
             if(!"".equals(openid)){
-                System.out.println("--3------------"+openid);
+//                System.out.println("--3------------"+openid);
                 Map user= userService.getUserByOpenId(openid);
                 if(null==user){
                     //新增用户
-                    System.out.println("--4------------"+access_token);
+//                    System.out.println("--4------------"+access_token);
                     user = userService.saveUser(openid,0,access_token);
                 }
 
@@ -85,7 +85,7 @@ public class LoginController {
         String username=ConvertUtil.safeToString(request.getParameter("username"),"");
         String pwd=ConvertUtil.safeToString(request.getParameter("password"),"");
 
-        if("123123".equals(pwd)){
+        if(userService.checkAdminBypwd(username,pwd)){
             request.getSession().setAttribute("adminname",username);
             return "redirect:/admin/index";
         }else{

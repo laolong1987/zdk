@@ -82,6 +82,8 @@
         function iniMenu(){
             var data = [];
             data.push({ id: 1, value: '${ctx}/admin/task/showlist', text: '任务管理' });
+            data.push({ id: 2, value: '${ctx}/admin/batch/showlist', text: '推广员数据提交' });
+            data.push({ id: 3, value: '${ctx}/admin/task/searchlist', text: '任务审批' });
             var tree = $("#tree").ligerTree({
                 data:data,
                 nodeWidth : 120,

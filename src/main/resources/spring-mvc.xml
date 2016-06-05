@@ -36,6 +36,7 @@
     <mvc:resources location="/ligerUI/" mapping="/ligerUI/**"/>
     <mvc:resources location="/jsp/" mapping="/jsp/**"/>
     <mvc:resources location="/umeditor/" mapping="/umeditor/**"/>
+    <mvc:resources location="/file/" mapping="/file/**"/>
 
     <!--  拦截器  -->
     <mvc:interceptors>

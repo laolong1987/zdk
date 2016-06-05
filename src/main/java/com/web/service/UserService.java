@@ -35,6 +35,15 @@ public class UserService {
     public boolean checkUserByOpenId(String openid) {
         return userDao.checkUserByOpenId(openid);
     }
+    /**
+     * 根据admin是否存在
+     *
+     * @param
+     * @return
+     */
+    public boolean checkAdminBypwd(String username,String pwd) {
+        return userDao.checkAdminBypwd(username,pwd);
+    }
 
     /**
      * 添加用户
@@ -108,5 +117,48 @@ public class UserService {
         return resultmap;
     }
 
+    /**
+     * 获取用户信息
+     *
+     * @param userid
+     * @return
+     */
+    public User_info getUserInfoByUserId(int userid) {
+         return userDao.getUserInfoByUserId(userid);
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param userid
+     * @return
+     */
+    public User_info getUserInfoById(int userid) {
+        return (User_info)userDao.getObjectById(userid,User_info.class);
+    }
+
+    /**
+     * 获取用户
+     *
+     * @param userid
+     * @return
+     */
+    public User getUserById(int userid) {
+        return (User) userDao.getObjectById(userid,User.class);
+    }
+
+    public void saveUserInfo(User_info user_info){
+        userDao.save(user_info);
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param referee_id
+     * @return
+     */
+    public List<User_info> findUserInfoByReferee_id(int referee_id) {
+        return userDao.findUserInfoByReferee_id(referee_id);
+    }
 
 }

@@ -57,14 +57,6 @@
 //        f_initGrid();
         $("#file").uploadPreview({ Img: "ImgPr", Width: 200, Height: 200 });
 
-
-        checktypelist = $("#listbox1").ligerListBox({
-            isShowCheckBox: true, isMultiSelect: true,
-            data: ${checktype}, width: 200, valueFieldID: 'lbchecktypeids'
-        });
-
-
-
     });
 
     function setGrid(){
@@ -79,7 +71,9 @@
                     align : 'right',
                     render: function (rowdata, rowindex, value)
                     {
-                        return "<img title='修改' onclick='editColumn("+JSON.stringify(rowdata)+");' style='margin-top:5px;cursor:pointer;' src='${ctx}/ligerUI/skins/icons/editform.png'/>&nbsp;&nbsp;&nbsp;";
+                        var a="<a href='#'  onclick='shownote("+JSON.stringify(rowdata)+");' >导出</a>";
+                        var b="<a href='#'  onclick='shownote("+JSON.stringify(rowdata)+");' >导入</a>";
+                        return a+b;
                     }
                 },
                 {
@@ -302,39 +296,6 @@
         }
     }
 
-
-    function f_initGrid()
-    {
-        g = manager = $("#maingrid2").ligerGrid({
-            //toolbar: {},
-            //title : 'gg',
-            columns: [
-                { display: '名称', name: 'name',width:100,
-                    editor: { type: 'text' }
-                },
-                { display: '类型', name: 'type',width:80,
-                    editor: { type: 'select', data: typeData, valueField: 'type' },
-                    render: function (item)
-                    {
-                        if (parseInt(item.type) == 1) return '文本';
-                        else return '图片';
-                    }
-                },
-                { display: '最小值', name: 'minlength', type: 'int',width:50, editor: { type: 'int'} },
-                { display: '最大值', name: 'maxlength', type: 'int',width:50, editor: { type: 'int'} },
-                { display: '正则表达式', name: 'regular',width:250,
-                    editor: { type: 'text' }, align: 'left'
-                }
-            ],
-            onSelectRow: function (rowdata, rowindex)
-            {
-                $("#txtrowindex").val(rowindex);
-            },
-            enabledEdit: true, isScroll: false, checkbox:true,rownumbers:true,
-            width:700
-        });
-    }
-
     function deleteRow()
     {
         var manager = $("#maingrid2").ligerGetGridManager();
@@ -406,150 +367,5 @@
 <!-- 表格 -->
 <div id="maingrid" style="margin:0; padding:0"></div>
 <div style="display:none;"></div>
-<div id="addWindow" style="width:99%; margin:3px; display:none;">
-    <div class="l-dialog-body" style="width: 100%;">
-        <form id="dataForm" name="dataForm">
-            <input id="taskid" name="taskid" type="hidden" />
-            <input id="content" name="content" type="hidden" />
-            <input id="tabledata" name="tabledata" type="hidden" />
-            <input id="checktypeids" name="checktypeids" type="hidden" />
-            <table class="table_css">
-                <tr>
-                    <td class="hd" width="50">
-                        名称
-                    </td>
-                    <td class="bd" width="150">
-                        <input type="text" name="name" id="name">
-                    </td>
-                    <td class="hd" width="50">
-                        类型
-                    </td>
-                    <td class="bd" width="auto">
-                        <select name="type" id="type">
-                            <option value="1" selected="selected">快速任务</option>
-                            <option value="2">高分任务</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="hd" width="50">
-                        开始时间
-                    </td>
-                    <td class="bd" width="auto">
-                        <input type="text" id="begintime" name="begintime">
-                    </td>
-                    <td class="hd" width="50">
-                        结束时间
-                    </td>
-                    <td class="bd" width="auto">
-                        <input type="text" id="endtime" name="endtime">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="hd" width="50">
-                       价格
-                    </td>
-                    <td class="bd" width="auto">
-                        <input type="text" name="unitprice" id="unitprice">
-                    </td>
-                    <td class="hd" width="50">
-                        总量
-                    </td>
-                    <td class="bd" width="auto">
-                        <input type="text" name="total" id="total">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="hd" width="50">
-                        状态
-                    </td>
-                    <td class="bd" width="auto" >
-                        <select name="status" id="status">
-                            <option value="1" selected="selected">有效</option>
-                            <option value="0">无效</option>
-                        </select>
-                    </td>
-                    <td class="hd" width="50">
-                       关键字
-                    </td>
-                    <td class="bd" width="auto" >
-                        <input type="text" name="keyword" id="keyword">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="hd" width="50">
-                        上传附件
-                    </td>
-                    <td class="bd" width="auto" colspan="3">
-                        <select name="imgfile" id="imgfile">
-                            <option value="0" selected="selected">不可上传</option>
-                            <option value="1">可上传</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="hd" width="50">
-                       上传图片
-                    </td>
-                    <td class="bd" width="auto" colspan="3">
-                        <div><img id="ImgPr" width="120" height="120" /></div>
-                        <input type="file" id="file" name="file"/>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="hd" width="50">
-                        任务描述
-                    </td>
-                    <td class="bd" width="auto" colspan="3">
-                        <textarea rows="5" style="width: 90%" id="description" name="description"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="hd" width="50">
-                        任务说明
-                    </td>
-                    <td class="bd" width="auto" colspan="3">
-                        <script type="text/plain" id="myEditor" style="height:240px;width:700px"></script>
-                    </td>
-                </tr>
-                <%--<tr>--%>
-                <%--<td class="hd" width="50">--%>
-                <%--任务要求--%>
-                <%--</td>--%>
-                <%--<td class="bd" width="" colspan="3">--%>
-                <%--<input type="button" value="删除" onclick="deleteRow()"--%>
-                <%--class="l-button l-button-submit" />--%>
-                <%--<input type="button" value="添加" onclick="addNewRow()"--%>
-                <%--class="l-button l-button-submit" />--%>
-                <%--<div id="maingrid2" ></div>--%>
-                <%--</td>--%>
-                <%--</tr>--%>
-                <tr>
-                    <td class="hd" width="50">
-                        任务要求
-                    </td>
-                    <td class="bd" width="" colspan="3">
-                        <div id="listbox1"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="hd"></td>
-                    <td class="bd" colspan="3">
-                        <input type="button" value="保存" onclick="submitdata()"
-                               class="l-button l-button-submit" />
-                        <input type="button" value="关闭" onclick="closewindow()"
-                               class="l-button l-button-submit" />
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</div>
 </body>
 </html>

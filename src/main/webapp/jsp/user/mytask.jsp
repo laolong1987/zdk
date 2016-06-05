@@ -14,7 +14,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="yes" name="apple-touch-fullscreen">
     <meta content="telephone=no,email=no" name="format-detection">
-    <title>${typename}</title>
+    <title>高分/快速任务</title>
 </head>
 <body>
 <header>
@@ -26,19 +26,18 @@
 <div class="z-task-list">
     <ul>
         <c:forEach var="list" items="${tasklist}">
-            <c:if test="${empty list.status || 0==list.status}">
 
 
-            <c:if test="${empty list.status}">
-                <li onclick="show('${list.id}','${list.name}','${list.logoimg}','${list.total}','-1','${list.imgfile}','${list.utid}','${list.checktype}')" >
+            <c:if test="${1==list.status || 2==list.status}">
+                <li onclick="show('${list.id}','${list.name}','${list.logoimg}','${list.total}','-1','${list.imgfile}','${list.utid}')" >
             </c:if>
             <c:if test="${0==list.status}">
-                <li onclick="show('${list.id}','${list.name}','${list.logoimg}','${list.total}','0','${list.imgfile}','${list.utid}','${list.checktype}')" >
+                <li onclick="show('${list.id}','${list.name}','${list.logoimg}','${list.total}','0','${list.imgfile}','${list.utid}')" >
             </c:if>
                 <img src="${ctx}/images/taskimg/${list.logoimg}" alt="">
                 <div class="z-t-content">
                     <strong>${list.name}</strong>
-                    <span class="z-gray">剩余：${list.total}份</span>
+                    <%--<span class="z-gray">剩余：${list.total}份</span>--%>
                     <p class="z-gray">任务类型：${list.keyword}</p>
                     <p id="lidescription${list.id}" class="z-red">${list.description}</p>
                 </div>
@@ -47,16 +46,18 @@
                     <%--<a class="z-btn-green" href="###" onclick="show('${list.id}','${list.name}','${list.logoimg}','${list.total}')" >赚取<fmt:formatNumber value="${list.unitprice/100}" type="currency"/>元</a>--%>
                 <%--</div>--%>
                 <div class="z-t-side">
-                    <c:if test="${empty list.status}">
-                        <span>点击领取</span>
+                    <c:if test="${1==list.status}">
+                        <span>审批中...</span>
                     </c:if>
                     <c:if test="${0==list.status}">
                         <span>进行中...</span>
                     </c:if>
+                    <c:if test="${2==list.status}">
+                        <span>已完成...</span>
+                    </c:if>
                     <p><em>￥</em><fmt:formatNumber value="${list.unitprice/100}"/>元</p>
                 </div>
             </li>
-            </c:if>
         </c:forEach>
     </ul>
 </div>
@@ -82,14 +83,14 @@
     <div class="w-tk-from">
         <%--<div class="w-input-div">众调网地址：ssssss.com</div>--%>
         <div id="content" class="w-textare-div"></div>
+
                 <form id="taskf" action="uptask" method="post" enctype="multipart/form-data" >
                     <input type="hidden" id="utid" name="utid">
                     <input type="hidden" id="taskid" name="taskid">
                     <input type="hidden" id="tasktype" name="tasktype" value="${tasktype}">
-                    <input type="hidden" id="taskchecktype" name="taskchecktype" value="">
-                    <div id="bd" class="w-bd1">
+                    <div id="bd">
                     </div>
-                    <div id="bd2" class="w-btn-group">
+                    <div id="bd2">
                         <div id="newUpload2">
                             <input type="file" name="file">
                         </div>
@@ -99,7 +100,7 @@
 
         <a id="starttask" class="w-btn-longgreen01" href="###" onclick="start()">开始任务</a>
         <a id="submittask" class="w-btn-longgreen01" href="###" onclick="tijiao()">提交任务</a>
-        <a class="w-btn-longgreen02" href="javascript:void(0);" onclick="closewindow()">关闭</a>
+        <a class="w-btn-longgreen02" href="javascript:void(0);" onclick="closewindow()" >关闭</a>
     </div>
 </div>
 <!-- /弹框 -->
@@ -132,29 +133,28 @@
         $('#bd2').hide();
         $("#content").html("");
         $("#taskid").val("");
-        $("#bd").html("");
     }
 
-    function show(id,name,logoimg,total,status,imgfile,utid,ids){
+    function show(id,name,logoimg,total,status,imgfile,utid){
         $("#content").html("");
         $("#taskid").val(id);
-        $("#taskchecktype").val(ids);
         $("#utid").val(utid);
         $("#name").text(name);
         $("#total").text("剩余："+total+"份");
         $("#description").text($("#lidescription"+id).text());
-        $("#logoimg").attr('src','${ctx}/images/taskimg/'+logoimg);
+        $("#ImgPr").attr('src','${ctx}/images/taskimg/'+logoimg);
         getcontent(id);
 
         //生成自动表单
         if('0'==status){
             $('#submittask').show();
-            addtext(ids);
+            addtext(id);
             if(1==imgfile){
                 $("#bd2").show();
             }
         }else{
-            $('#starttask').show();
+//            $('#starttask').show();
+//            $('#starttask').show();
         }
 
         $('.w-black-bg').show();
@@ -186,18 +186,18 @@
         });
     }
 
-    function addtext(checktype){
+    function addtext(taskid){
         var str='';
         $.ajax({
             type : "POST",
             url : "gettaskcheck",
-            data : {checktype:checktype},
+            data : {taskid:taskid},
             dataType : "json",
             success : function(result) {
                 $.each(result, function(index, content)
                 {
-                    if(content.status==1){
-                        str +="<div class='w-dbth' ><label>"+content.name+"：</label><input type='text' id='b_"+content.id+"' name='b_"+content.id+"' max='"+content.max+"'></div>";
+                    if(content.type==1){
+                        str +="<p>"+content.name+"</p><input type='text' id='b_"+content.id+"' name='b_"+content.id+"' max='"+content.maxlength+"'>";
                     }
                 });
 
@@ -214,9 +214,6 @@
         document.getElementById("newUpload2").removeChild(document.getElementById("div_"+o));
     }
 
-    function fangqi(){
-
-    }
 </script>
 </body>
 </html>

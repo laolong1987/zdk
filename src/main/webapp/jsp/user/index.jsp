@@ -25,7 +25,7 @@
     <dl>
         <dt><img src="${sessionScope.user.headimgurl}" alt=""></dt>
         <dd>
-            <p><fmt:formatNumber value="${sessionScope.user.total_money/100}" type="currency"/></p>
+            <p>${sessionScope.user.nick_name}</p>
             <span class="z-gray">累计收益</span>
             <span class="z-red"><fmt:formatNumber value="${sessionScope.user.total_money/100}" type="currency"/></span>
         </dd>
@@ -57,26 +57,7 @@
 <!-- /价格状态展示 -->
 <div class="z-banner"><img src="${ctx}/images/z_banner01.jpg" alt=""></div>
 <!-- 底部 -->
-<footer>
-    <ul>
-        <li class="${c1}" onclick="gopage('1')">
-            <p class="z-icon-fast"></p>
-            <span>快速任务</span>
-        </li>
-        <li class="${c2}" onclick="gopage('2')">
-            <p class="z-icon-high"></p>
-            <span>高分任务</span>
-        </li>
-        <li class="${c3}" onclick="gopage('3')">
-            <p class="z-icon-share"></p>
-            <span>分享收徒</span>
-        </li>
-        <li class="${c4}" onclick="gopage('4')">
-            <p class="z-icon-center"></p>
-            <span>个人中心</span>
-        </li>
-    </ul>
-</footer>
+<jsp:include page="footer.jsp" />
 <!-- /底部 -->
 </body>
 </html>
