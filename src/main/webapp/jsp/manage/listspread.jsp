@@ -13,10 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
-<link href="${ctx}/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="${ctx}/js/ajaxfileupload.js"></script>
 <script type="text/javascript">
-
     var gridManager = null;
     var saveForm = null;
     var saveWindow = null;
@@ -52,26 +49,32 @@
                     }
                 },
                 {
-                    display : '任务名',
-                    name : 'name',
+                    display : '公司名称',
+                    name : 'company',
                     align : 'center',
                     width : 200,
                     minWidth : 30
                 },{
-                    display : '用户ID',
-                    name : 'userid',
-                    align : 'center',
-                    width : 50,
-                    minWidth : 60
-                },{
-                    display : '姓名',
-                    name : 'nick_name',
+                    display : '推广区域',
+                    name : 'area',
                     align : 'center',
                     width : 100,
                     minWidth : 60
                 },{
-                    display : '提交时间',
-                    name : 'updatetime',
+                    display : '姓名',
+                    name : 'name',
+                    align : 'center',
+                    width : 100,
+                    minWidth : 60
+                },{
+                    display : '手机号',
+                    name : 'phone',
+                    align : 'center',
+                    width : 150,
+                    minWidth : 60
+                },{
+                    display : '邮箱',
+                    name : 'email',
                     align : 'center',
                     width : 200,
                     minWidth : 60
@@ -80,56 +83,29 @@
                     name : 'status',
                     minWidth : 10,
                     align : 'center',
-                    width : 50,
+                    width : 80,
                     render : function(rowdata, rowindex, value) {
                         if(rowdata.status==1){
-                            return "已提交"
+                            return "审核通过"
                         }else if(rowdata.status==0){
-                            return "进行中";
+                            return "待审核";
                         }else if(rowdata.status==2){
-                            return "已审核";
-                        }else if(rowdata.status==3){
-                            return "已驳回";
-                        }else{
-                            return ""
+                            return "审核驳回";
                         }
                     }
                 },{
-                    display : '备注',
-                    name : 'remark',
-                    align : 'left',
+                    display : '提交时间',
+                    name : 'create_time',
+                    align : 'center',
+                    width : 150,
                     minWidth : 60
                 }
             ],
             pageSize : 15,
-            url : "${ctx}/admin/task/searchchecklist",
+            url : "${ctx}/admin/spread/searchlist",
             rownumbers : true,
             selectRowButtonOnly : true,
             isScroll : true
-        });
-    }
-
-    function f_initGrid()
-    {
-        g = manager = $("#maingrid2").ligerGrid({
-            columns: [
-                { display: '名称', name: 'name',width:100,
-                    render: function (item)
-                    {
-                        if (parseInt(item.check_id) != 0) return item.name;
-                        else return '附件';
-                    }
-                },
-                { display: '值', name: 'type',width:300,
-                    render: function (item)
-                    {
-                        if (parseInt(item.check_id) != 0) return item.value;
-                        else  return "<a href='${ctx}/images/taskimg/"+item.value+"' target='_parent' >下载</a>";
-                    }
-                }
-            ],
-            isScroll: false, checkbox:false,rownumbers:true,usePager:false,
-            width:700
         });
     }
 
@@ -156,31 +132,9 @@
         }
         $("#upnoteid").val(data.id);
         $("#note").val(data.remark);
-        addtext(data.userid,data.taskid);
         noteWindow.show();
     }
 
-    function addtext(userid,taskid){
-       var manager = $("#maingrid2").ligerGetGridManager();
-        manager.loadData();
-        $.ajax({
-            type : "POST",
-            url : "getcheckdata",
-            data : {userid:userid,taskid:taskid},
-            dataType : "json",
-            async:false,
-            success : function(result) {
-                $.each(result, function(index, content){
-                    manager.addRow({
-                        name: content.name,
-                        value: content.value,
-                        check_id : content.check_id
-                    });
-                });
-            }
-        });
-
-    }
 
     function addnote(type){
         var upid = $("#upnoteid").val();
@@ -188,8 +142,8 @@
 
         $.ajax({
             type : "POST",
-            url : "updateusertask",
-            data : {upid:upid,type:type,note:note},
+            url : "updatespread",
+            data : {upid:upid,status:type,remark:note},
             dataType : "json",
             async:false,
             success : function(result) {
@@ -209,13 +163,6 @@
         $("#note").val("");
         cleanFile();
     }
-
-    function cleanFile(){
-        var file = $("#file");
-        file.after(file.clone().val(""));
-        file.remove();
-    }
-
 </script>
 </head>
 <body style="padding: 5px;">
@@ -236,7 +183,6 @@
 <div style="display:none;"></div>
 <div id="noteWindow" style="width:99%; margin:3px; display:none;">
     <div class="l-dialog-body" style="width: 100%;">
-        <div id="maingrid2" ></div>
         <p>备注：</p>
         <textarea cols="100" rows="15" class="l-textarea"  style="width: 99%" id="note" name="note"></textarea>
         <input type="hidden" id="upnoteid" name="upnoteid" />
@@ -250,12 +196,12 @@
                 <div class="l-dialog-btn">
                     <div class="l-dialog-btn-l"></div>
                     <div class="l-dialog-btn-r"></div>
-                    <div class="l-dialog-btn-inner" onclick="addnote('3');">审核驳回</div>
+                    <div class="l-dialog-btn-inner" onclick="addnote('2');">审核驳回</div>
                 </div>
                 <div class="l-dialog-btn">
                     <div class="l-dialog-btn-l"></div>
                     <div class="l-dialog-btn-r"></div>
-                    <div class="l-dialog-btn-inner" onclick="addnote('2');">审核通过</div>
+                    <div class="l-dialog-btn-inner" onclick="addnote('1');">审核通过</div>
                 </div>
                 <div class="l-clear"></div>
             </div>

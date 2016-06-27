@@ -1,5 +1,6 @@
 package com.web.controller;
 
+import com.common.Token;
 import com.common.UpdateFile;
 import com.utils.ConvertUtil;
 import com.web.entity.*;
@@ -27,7 +28,8 @@ public class ManageController {
 
     @Autowired
     TaskService taskService;
-
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/task")
     public String task(HttpServletRequest request,
@@ -35,9 +37,42 @@ public class ManageController {
 
         return "/jsp/user/submitbatch";
     }
+    @RequestMapping(value = "/tasklist")
+    public String tasklist(HttpServletRequest request,
+                        HttpServletResponse response) {
+
+        List<Map> list = taskService.searchTask(2);
+        request.setAttribute("list",list);
+        return "/jsp/spread/listtask";
+    }
+
+    @RequestMapping(value = "/showupdatepwd")
+    public String showupdatepwd(HttpServletRequest request,
+                        HttpServletResponse response) {
+
+        return "/jsp/spread/updatepwd";
+    }
+
+    @RequestMapping(value = "/updatepwd",method = RequestMethod.POST)
+    @ResponseBody
+    public String updatepwd(HttpServletRequest request,
+                              HttpServletResponse response) {
+        String pwd1=ConvertUtil.safeToString(request.getParameter("pwd1"),"");
+        String pwd2=ConvertUtil.safeToString(request.getParameter("pwd2"),"");
+        int spreadid=ConvertUtil.safeToInteger(request.getSession().getAttribute("spreadid"),0);
+
+        Spread spread= userService.getSpreadById(spreadid);
+        if(null!=spread){
+            spread.setPwd(pwd1);
+            spread.setUpdate_time(new Date());
+            userService.saveSpread(spread);
+        }
+        return "success";
+    }
 
 
     @RequestMapping(value = "/searchtask")
+
     public String searchtask(HttpServletRequest request,
                        HttpServletResponse response) {
         String name= ConvertUtil.safeToString(request.getParameter("name"),"");

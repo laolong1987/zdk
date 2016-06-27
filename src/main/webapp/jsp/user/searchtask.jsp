@@ -25,13 +25,23 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
         <a class="navbar-brand" href="#">众调客</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#example-navbar-collapse">
+            <span class="sr-only">切换导航</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
     </div>
-    <div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
-            <li ><a href="task">提交</a></li>
+            <li><a href="tasklist">推广任务</a></li>
+            <li><a href="task">提交</a></li>
             <li class="active"><a href="searchtask">查询</a></li>
         </ul>
     </div>
+
 </nav>
 <div  class="container">
     <h3>推广员数据查询</h3>

@@ -18,7 +18,7 @@
     <script type="text/javascript" src="${ctx}/js/ajaxfileupload.js"></script>
     <script type="text/javascript">
         (function($){
-            $.fn.serializeJSON=function(){
+            $.fn.serializeJSON=function()
                 var serializeObj={};
                 $(this.serializeArray()).each(function(){
                     serializeObj[this.name]=this.value;
@@ -67,17 +67,28 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
         <a class="navbar-brand" href="#">众调客</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#example-navbar-collapse">
+            <span class="sr-only">切换导航</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
     </div>
-    <div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
+            <li  ><a href="tasklist">推广任务</a></li>
             <li class="active"><a href="task">提交</a></li>
-            <li><a href="searchtask">查询</a></li>
+            <li ><a href="searchtask">查询</a></li>
         </ul>
     </div>
+
 </nav>
 <div  class="container">
     <h3>推广员数据提交表单</h3>
     <form id="dataForm" name="dataForm">
+        <input type="hidden" name="token" value="${token}">
         <div class="form-group">
             <label for="name">推广员姓名（必填）</label>
             <input type="text" class="form-control" id="name" name="name">

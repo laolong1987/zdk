@@ -6,11 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.common.UpdateFile;
 import com.utils.ConvertUtil;
 import com.utils.DateUtil;
+import com.utils.ImportData;
 import com.utils.JxlUtil;
-import com.web.entity.Patient;
-import com.web.entity.Task;
-import com.web.entity.Task_check;
-import com.web.entity.Task_checktype;
+import com.web.entity.*;
 import com.web.service.PatientService;
 import com.web.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,6 +158,25 @@ public class TaskController {
         return "/jsp/manage/checklist";
     }
 
+    @RequestMapping(value = "/updateusertask", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateusertask(HttpServletRequest request, HttpServletResponse response) {
+        int upid = ConvertUtil.safeToInteger(request.getParameter("upid"), 0);
+        int status = ConvertUtil.safeToInteger(request.getParameter("type"), 0);
+        String note = ConvertUtil.safeToString(request.getParameter("note"), "");
+        User_task user_task= taskService.getUserTaskById(upid);
+        if(null!=user_task){
+            user_task.setUpdatetime(new Date());
+            user_task.setRemark(note);
+            //只有待审批状态的记录才可以修改
+            if(1==user_task.getStatus()){
+                user_task.setStatus(status);
+            }
+            taskService.saveUserTask(user_task);
+        }
+         return "";
+    }
+
     @RequestMapping(value = "/searchchecklist",method = RequestMethod.POST)
     @ResponseBody
     public Object searchchecklist(@RequestBody Map<String, String> param){
@@ -184,29 +201,24 @@ public class TaskController {
     }
 
     @RequestMapping("exporttaskdata")
-    public void exportData(HttpServletRequest request,
-                           HttpServletResponse response) throws IOException {
+    public void exporttaskdata(HttpServletRequest request,
+                           HttpServletResponse response) throws IOException{
+        int taskid=ConvertUtil.safeToInteger(request.getParameter("taskid"),0);
+        Task task= taskService.getTaskById(taskid);
         String path = request.getSession().getServletContext().getRealPath("/")
-                + "template" + "/";
+                + "file/exl" + "/";
         String f1 = path + "template.xls";
-        String reportType = request.getParameter("type");
-        String fn = "";
-        if(reportType.equals("1")){
-            fn = "延保人员信息表";
-        }
-        if(reportType.equals("2")){
-            fn = "竞赛人员信息表";
-        }
+        String fn = task.getName();
         String d = fn + DateUtil.getcurrentDatetime("yyyyMMdd");
         String f2 = path + d + ".xls";
         Map para = new HashMap();
         para.put("type",request.getParameter("type"));
-        JxlUtil.writeExcel(f1, f2, orgService.searchshsgm(para), 0, 1);
+        JxlUtil.writeExcel(f1, f2, taskService.searchTaskFromByTaskId(taskid,task.getChecktype()), 0, 0);
         String fileName = d + ".xls";
         // 当前文件路径
         String nowPath = request.getSession().getServletContext().getRealPath(
                 "/")
-                + "template" + "/" + d + ".xls";
+                + "file/exl" + "/" + d + ".xls";
         response.setContentType("application/vnd.ms-excel");
         File file = new File(nowPath);
 
@@ -236,4 +248,38 @@ public class TaskController {
         }
     }
 
+
+    @RequestMapping(value = "/uptaskfile",method = RequestMethod.POST)
+    @ResponseBody
+    public String uptaskfile(HttpServletRequest request,
+                           HttpServletResponse response) {
+        int taskid=ConvertUtil.safeToInteger(request.getParameter("taskid"),0);
+        UpdateFile updateFile=new UpdateFile();
+        String filename=updateFile.up(request,"file","/file");
+        String logoRealPathDir = request.getSession().getServletContext().getRealPath("file");
+        ImportData importData = new ImportData();
+        List<Map> list = importData.getData(logoRealPathDir+"/"+filename);
+        for(Map map:list){
+//            System.out.println(i+"------"+map.get("list1")+"---"+map.get("list2"));
+            int id=ConvertUtil.safeToInteger(map.get("list1"),0);
+            int status=ConvertUtil.safeToInteger(map.get("list2"),0);//0=无效 1=有效
+            String remark=ConvertUtil.safeToString(map.get("list3"),"");
+            User_task user_task= taskService.getUserTaskById(id);
+            if(null!=user_task){
+                user_task.setUpdatetime(new Date());
+                user_task.setRemark(remark);
+                //只有待审批状态的记录才可以修改
+                if(1==user_task.getStatus()){
+                    if(0==status){
+                        user_task.setStatus(3);
+                    }else if(1==status){
+                        user_task.setStatus(2);
+                    }
+                }
+
+                taskService.saveUserTask(user_task);
+            }
+        }
+        return "success";
+    }
 }

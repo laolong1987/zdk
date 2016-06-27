@@ -6,6 +6,7 @@ import com.common.SearchTemplate;
 import com.web.entity.Task_batch;
 import com.web.entity.Task_checktype;
 import com.web.entity.User_info;
+import com.web.entity.User_task;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class TaskDao extends BaseDao {
      */
     public SearchTemplate searchUserTask(Map map) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT t.userid,a.nick_name,t.status,t.taskid,b.name,DATE_FORMAT(t.updatetime,'%Y-%m-%d %H:%i') AS updatetime FROM user_task t");
+        sql.append("SELECT t.remark,t.id,t.userid,a.nick_name,t.status,t.taskid,b.name,DATE_FORMAT(t.updatetime,'%Y-%m-%d %H:%i') AS updatetime FROM user_task t");
         sql.append(" LEFT JOIN user_info a ON a.userid=t.userid LEFT JOIN task b ON b.id=t.taskid ");
         sql.append("where 1=1 ");
         Map p = new HashMap();
@@ -122,6 +123,19 @@ public class TaskDao extends BaseDao {
         return super.findResult(sql.toString(), p);
     }
 
+    public List<Map> searchTask(int type) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT t.id,t.name,t.status,t.description,DATE_FORMAT(t.begintime,'%Y-%m-%d %H:%i') AS begintime,DATE_FORMAT(t.endtime,'%Y-%m-%d %H:%i') AS endtime, ");
+        sql.append("t.keyword,t.unitprice,t.total,t.type,t.logoimg,t.imgfile,t.checktype ");
+        sql.append("FROM task t ");
+        sql.append("where 1=1 and t.status=:status and t.type=:type ");
+        Map p = new HashMap();
+        p.put("status", "1");
+        p.put("type", type);
+        sql.append("order by create_time desc ");
+        return super.findResult(sql.toString(), p);
+    }
+
     public List<Task_batch> findTask_batchByname(String name, String phone) {
         StringBuffer sql = new StringBuffer();
         sql.append("select * from task_batch where name=:name and phone=:phone ");
@@ -143,6 +157,7 @@ public class TaskDao extends BaseDao {
     public List<Map> searchTaskClickType(String ids) {
         StringBuffer sql = new StringBuffer("select * from task_checktype where id in (");
         sql.append(ids).append(") ");
+        sql.append(" order by id DESC ");
         Map p = new HashMap();
 //        p.put("ids", ids);
         return super.findResult(sql.toString(), p);
@@ -152,10 +167,34 @@ public class TaskDao extends BaseDao {
     public List<Map> searchTaskClickData(int userid,int taskid) {
         StringBuffer sql = new StringBuffer("SELECT  t.value,t.check_id,t.type,a.name  FROM task_form t LEFT JOIN task_checktype a ON a.id=t.check_id  ");
         sql.append(" WHERE user_id=:user_id  AND task_id=:task_id ");
+        sql.append(" order by t.check_id DESC ");
         Map p = new HashMap();
         p.put("user_id", userid);
         p.put("task_id", taskid);
         return super.findResult(sql.toString(), p);
 //
+    }
+
+    public List<Map> searchTaskClickData(int taskid) {
+        StringBuffer sql = new StringBuffer("SELECT c.id, t.user_id, t.value,t.check_id,t.type,a.name, b.nick_name,c.status  ");
+        sql.append("  FROM task_form t LEFT JOIN task_checktype a ON a.id=t.check_id  LEFT JOIN user_info b ON b.userid=t.user_id ");
+        sql.append("  LEFT JOIN user_task c ON c.taskid=t.task_id  AND c.userid=t.user_id ");
+        sql.append(" WHERE  task_id=:task_id ");
+        sql.append(" order by t.user_id,t.check_id DESC ");
+        Map p = new HashMap();
+        p.put("task_id", taskid);
+        return super.findResult(sql.toString(), p);
+//
+    }
+
+
+    public List<User_task> findUser_task(int taskid,int userid){
+        StringBuffer sql = new StringBuffer();
+        sql.append("select * from user_task where taskid=:taskid and userid=:userid ");
+        Map map = new HashMap();
+        map.put("taskid",taskid);
+        map.put("userid",userid);
+        List<User_task> list = super.findObjects(sql.toString(), map, User_task.class);
+        return list;
     }
 }

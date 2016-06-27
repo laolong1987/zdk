@@ -4,6 +4,7 @@ package com.web.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.utils.ConvertUtil;
 import com.utils.SettingUtil;
+import com.web.entity.Spread;
 import com.web.service.UserService;
 import com.web.service.WeiXinService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -91,5 +93,63 @@ public class LoginController {
         }else{
             return "/jsp/manage/login";
         }
+    }
+
+
+    @RequestMapping(value = "/spreadlogin")
+    public String spreadlogin(HttpServletRequest request,
+                             HttpServletResponse response) {
+
+        return "/jsp/spread/login";
+    }
+
+    @RequestMapping(value = "/spreadlogin2")
+    public String spreadlogin2(HttpServletRequest request,
+                              HttpServletResponse response) {
+
+        String username=ConvertUtil.safeToString(request.getParameter("username"),"");
+        String pwd=ConvertUtil.safeToString(request.getParameter("password"),"");
+
+        Spread spread= userService.getSpreadBypwd(username,pwd);
+
+        if(null!=spread){
+            request.getSession().setAttribute("spreadname",username);
+            request.getSession().setAttribute("spreadid",spread.getId());
+            return "redirect:/manage/tasklist";
+        }else{
+            return "/jsp/spread/login";
+        }
+    }
+
+    @RequestMapping(value = "/addspread")
+    public String addspread(HttpServletRequest request,
+                            HttpServletResponse response) {
+        String company=ConvertUtil.safeToString(request.getParameter("company"),"");
+        String area=ConvertUtil.safeToString(request.getParameter("area"),"");
+        String name=ConvertUtil.safeToString(request.getParameter("name"),"");
+        String phone=ConvertUtil.safeToString(request.getParameter("phone"),"");
+        String weixin=ConvertUtil.safeToString(request.getParameter("weixin"),"");
+        String email=ConvertUtil.safeToString(request.getParameter("email"),"");
+
+        Spread spread=new Spread();
+        spread.setStatus(0);
+        spread.setCompany(company);
+        spread.setArea(area);
+        spread.setName(name);
+        spread.setPhone(phone);
+        spread.setWeixin(weixin);
+        spread.setCreate_time(new Date());
+        spread.setUpdate_time(new Date());
+        spread.setEmail(email);
+        userService.saveSpread(spread);
+
+        return "/jsp/spread/addspreadok";
+    }
+
+    @RequestMapping(value = "/spreadregister")
+    public String spreadregister(HttpServletRequest request,
+                              HttpServletResponse response) {
+
+            return "/jsp/spread/register";
     }
 }

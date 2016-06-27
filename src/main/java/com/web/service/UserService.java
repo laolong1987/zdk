@@ -1,7 +1,9 @@
 package com.web.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.common.SearchTemplate;
 import com.web.dao.UserDao;
+import com.web.entity.Spread;
 import com.web.entity.User;
 import com.web.entity.User_account;
 import com.web.entity.User_info;
@@ -43,6 +45,25 @@ public class UserService {
      */
     public boolean checkAdminBypwd(String username,String pwd) {
         return userDao.checkAdminBypwd(username,pwd);
+    }
+    /**
+     * 根据Spread是否存在
+     *
+     * @param
+     * @return
+     */
+    public boolean checkSpreadBypwd(String username,String pwd) {
+        return userDao.checkSpreadBypwd(username,pwd);
+    }
+
+    /**
+     * 根据Spread是否存在
+     *
+     * @param
+     * @return
+     */
+    public Spread getSpreadBypwd(String username,String pwd) {
+        return userDao.getSpreadBypwd(username,pwd);
     }
 
     /**
@@ -159,6 +180,35 @@ public class UserService {
      */
     public List<User_info> findUserInfoByReferee_id(int referee_id) {
         return userDao.findUserInfoByReferee_id(referee_id);
+    }
+
+    /**
+     * 添加推广员
+     * @param spread
+     */
+    public void saveSpread(Spread spread){
+        userDao.save(spread);
+    }
+
+
+    /**
+     * 查询推广员
+     *
+     * @param map
+     * @return
+     */
+    public SearchTemplate searchSpread(Map map){
+        return userDao.searchSpread(map);
+    }
+
+    /**
+     * 获取推广员信息
+     *
+     * @param id
+     * @return
+     */
+    public Spread getSpreadById(int id) {
+        return (Spread) userDao.getObjectById(id,Spread.class);
     }
 
 }

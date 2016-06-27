@@ -107,7 +107,8 @@ public class JxlUtil {
                         Integer.parseInt(cells[j].toString()));
                 ws.addCell(numbercell);
             } else {
-                Label cell = new Label(j, rowNum, "" + cells[j]);
+
+                Label cell = new Label(j, rowNum, ""+ConvertUtil.safeToString(cells[j],""));
                 ws.addCell(cell);
             }
         }

@@ -30,6 +30,8 @@ public class User_task{
     private Date createtime;
     @Column(name ="updatetime")
     private Date updatetime;
+    @Column(name ="remark")
+    private String remark;
     public void setId(int id){
         this.id=id;
     }
@@ -70,6 +72,13 @@ public class User_task{
     }
     public Date getUpdatetime(){
         return this.updatetime;
+    }
+
+    public void setRemark(String remark){
+        this.remark=remark;
+    }
+    public String getRemark(){
+        return this.remark;
     }
 
 }

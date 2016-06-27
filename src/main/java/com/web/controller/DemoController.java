@@ -1,6 +1,7 @@
 package com.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.common.Token;
 import com.common.weixin.TokenThread;
 import com.utils.ConvertUtil;
 import com.utils.StringUtil;
@@ -9,7 +10,6 @@ import com.web.service.DemoService;
 import com.web.service.UserService;
 import com.web.service.WeiXinService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,11 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by gaoyang on 16/2/28.
@@ -43,15 +40,16 @@ public class DemoController {
     UserService userService;
 
     @RequestMapping(value = "/show")
+    @Token(save=true)
     public String show(HttpServletRequest request,
                                 HttpServletResponse response) {
 
         request.setAttribute("list",demoService.searchList(new HashMap()));
-        System.out.println(TokenThread.accessToken.getToken());
         return "/jsp/demo";
     }
 
     @RequestMapping(value = "/add")
+    @Token(remove=true)
     public String add(HttpServletRequest request,
                                          HttpServletResponse response) {
 

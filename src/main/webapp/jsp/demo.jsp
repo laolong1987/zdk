@@ -14,6 +14,7 @@
 <body>
 <form action="add" method="post">
     <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="token" value="${token}">
 <dl>
     <dt>新增<input type="text" id="txt1" class="l-text-field" ligeruiid="txt1"></dt>
     <dd>name:<input id="name" name="name" type="text"></dd>

@@ -49,8 +49,6 @@ public class AdminController {
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request,
                         HttpServletResponse response) {
-
-
         return "/jsp/manage/index";
     }
 }

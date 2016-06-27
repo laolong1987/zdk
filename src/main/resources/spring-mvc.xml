@@ -26,6 +26,9 @@
 
 
 
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"  >
+    </bean>
+
     <bean id="weiXinInit" class="com.common.weixin.WeiXinInit">
     </bean>
 
@@ -51,6 +54,16 @@
             <mvc:mapping path="/admin/**"/>
             <bean class="com.web.interceptors.FreeMarkerViewInterceptorAdmin"/>
         </mvc:interceptor>
+        <!--  推广员配置拦截 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/manage/**"/>
+            <bean class="com.web.interceptors.FreeMarkerViewInterceptorSpread"/>
+        </mvc:interceptor>
+        <!-- 配置Token拦截器，防止用户重复提交数据
+        <mvc:interceptor>
+            <mvc:mapping path = "/**" />
+            <bean class = "com.web.interceptors.TokenInterceptor" />
+        </mvc:interceptor> -->
     </mvc:interceptors>
 
 

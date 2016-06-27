@@ -1,12 +1,15 @@
 package com.web.service;
 
 import com.common.SearchTemplate;
+import com.utils.ConvertUtil;
+import com.utils.SettingUtil;
 import com.web.dao.PatientDao;
 import com.web.dao.TaskDao;
 import com.web.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -105,5 +108,79 @@ public class TaskService {
 
     public List<Map> searchTaskClickData(int userid,int taskid){
         return taskDao.searchTaskClickData(userid,taskid);
+    }
+
+    public List<String[]> searchTaskFromByTaskId(int taskid,String checktypeids){
+        int typesize=4;
+        // 当前文件路径
+        String nowPath = SettingUtil.getSetting("nowPath");
+        List<Map> list=new ArrayList<Map>();
+        if (null!=checktypeids && !"".equals(checktypeids)){
+            list = taskDao.searchTaskClickType(checktypeids.replaceAll(";",","));
+            typesize+=list.size();
+        }
+
+        List<String[]> resultList = new ArrayList<String[]>();
+        String[] ss = new String[typesize];
+        ss[0]="用户ID";
+        ss[1]="用户昵称";
+        ss[2]="数据状态";
+        ss[3]="数据ID";
+        int i=4;
+        for (Map map:list) {
+            ss[i]= ConvertUtil.safeToString(map.get("name"),"");
+            i++;
+        }
+        resultList.add(ss);
+        String tmpuserid="";
+        int j=4;
+        String[] d = new String[20];
+        List<Map> list2 = taskDao.searchTaskClickData(taskid);
+        for (Map map:list2) {
+            String userid= ConvertUtil.safeToString(map.get("user_id"),"");
+            String value= ConvertUtil.safeToString(map.get("value"),"");
+            String check_id= ConvertUtil.safeToString(map.get("check_id"),"");
+            String name= ConvertUtil.safeToString(map.get("name"),"");
+            String nick_name= ConvertUtil.safeToString(map.get("nick_name"),"");
+            String status= ConvertUtil.safeToString(map.get("status"),"");
+            String id= ConvertUtil.safeToString(map.get("id"),"");
+            if(!tmpuserid.equals(userid)){
+                if(j>4){
+                    resultList.add(d);
+                }
+                d = new String[100];
+                j=4;
+                d[0]=userid;
+                d[1]=nick_name;
+                d[2]=status;
+                d[3]=id;
+                tmpuserid=userid;
+            }
+            if("0".equals(check_id)){
+                d[j]=nowPath+value;
+            }else{
+                d[j]=value;
+            }
+            j++;
+        }
+        if(j!=0){
+            resultList.add(d);
+        }
+        return resultList;
+    }
+
+
+
+    public User_task getUserTask(int taskid,int userid){
+        User_task user_task=new User_task();
+        List<User_task> list= taskDao.findUser_task(taskid,userid);
+        if(list.size()>0){
+            user_task=list.get(0);
+        }
+        return user_task;
+    }
+
+    public List<Map> searchTask(int type){
+        return taskDao.searchTask(type);
     }
 }

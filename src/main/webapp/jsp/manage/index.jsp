@@ -82,8 +82,10 @@
         function iniMenu(){
             var data = [];
             data.push({ id: 1, value: '${ctx}/admin/task/showlist', text: '任务管理' });
-            data.push({ id: 2, value: '${ctx}/admin/batch/showlist', text: '推广员数据提交' });
-            data.push({ id: 3, value: '${ctx}/admin/task/searchlist', text: '任务审批' });
+            data.push({ id: 2, value: '${ctx}/admin/spread/showlist', text: '推广员管理' });
+            data.push({ id: 3, value: '${ctx}/admin/batch/showlist', text: '推广员数据提交' });
+            data.push({ id: 4, value: '${ctx}/admin/task/searchlist', text: '任务审批' });
+            data.push({ id: 5, value: '${ctx}/admin/task/showexportlist', text: '任务导出审批' });
             var tree = $("#tree").ligerTree({
                 data:data,
                 nodeWidth : 120,
