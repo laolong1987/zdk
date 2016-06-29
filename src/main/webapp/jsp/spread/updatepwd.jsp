@@ -54,15 +54,17 @@
 </body>
 <script type="text/javascript">
     function submitdata(){
+        var pwd1=$("#pwd1").val();
+        var pwd2=$("#pwd2").val();
         if(yanz()){
             $.ajax({
                 type : "POST",
                 url : "updatepwd",
                 data : {pwd1:pwd1,pwd2:pwd2},
-                dataType : "json",
+                dataType : "text",
                 success : function(result) {
                     alert("修改密码成功，请重新登录！");
-                    window.location.href="${ctx}/";
+                    window.location.href="${ctx}/login/spreadlogin";
                 }
             });
         }

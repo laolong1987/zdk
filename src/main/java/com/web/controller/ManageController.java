@@ -66,6 +66,10 @@ public class ManageController {
             spread.setPwd(pwd1);
             spread.setUpdate_time(new Date());
             userService.saveSpread(spread);
+
+            //清除登录态
+            request.getSession().removeAttribute("spreadid");
+            request.getSession().removeAttribute("spreadname");
         }
         return "success";
     }

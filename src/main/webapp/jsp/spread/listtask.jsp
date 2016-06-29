@@ -37,6 +37,7 @@
             <li class="active" ><a href="tasklist">推广任务</a></li>
             <li ><a href="task">提交</a></li>
             <li ><a href="searchtask">查询</a></li>
+            <li ><a href="showupdatepwd">修改密码</a></li>
         </ul>
     </div>
 
